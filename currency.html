@@ -55,25 +55,27 @@
   </footer>
 
   <script>
-    async function convertCurrency() {
-      const from = document.getElementById("from").value;
-      const to = document.getElementById("to").value;
-      const amount = document.getElementById("amount").value;
+  async function convertCurrency() {
+    const from = document.getElementById("from").value;
+    const to = document.getElementById("to").value;
+    const amount = document.getElementById("amount").value;
 
-      try {
-        const res = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
-        const data = await res.json();
+    try {
+      const res = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
+      const data = await res.json();
 
-        if (data.result) {
-          document.getElementById("result").innerText =
-            `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
-        } else {
-          document.getElementById("result").innerText = "Conversion not available.";
-        }
-      } catch (err) {
-        document.getElementById("result").innerText = "Error fetching conversion data.";
+      if (data.result) {
+        document.getElementById("result").innerText =
+          `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
+      } else {
+        document.getElementById("result").innerText = "Conversion not available.";
       }
+    } catch (err) {
+      console.error(err);
+      document.getElementById("result").innerText = "Error fetching conversion data.";
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
