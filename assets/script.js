@@ -1,75 +1,45 @@
-// Currency API: https://api.exchangerate.host/latest
-
-const currencyFrom = document.getElementById("currency-from");
-const currencyTo = document.getElementById("currency-to");
-const currencyResult = document.getElementById("currency-result");
-
-// Populate currency dropdowns dynamically
-async function loadCurrencies() {
-  try {
-    const res = await fetch("https://api.exchangerate.host/symbols");
-    const data = await res.json();
-    const symbols = data.symbols;
-
-    for (let code in symbols) {
-      let option1 = document.createElement("option");
-      option1.value = code;
-      option1.text = `${code} - ${symbols[code].description}`;
-
-      let option2 = option1.cloneNode(true);
-
-      currencyFrom.appendChild(option1);
-      currencyTo.appendChild(option2);
-    }
-
-    // Default selections
-    currencyFrom.value = "USD";
-    currencyTo.value = "INR";
-  } catch (error) {
-    console.error("Error loading currencies:", error);
-  }
-}
-loadCurrencies();
+// Currency Elements
+const currencyFrom = document.getElementById("fromCurrency");
+const currencyTo = document.getElementById("toCurrency");
+const currencyResult = document.getElementById("currencyResult");
+const currencyAmount = document.getElementById("currencyAmount");
 
 // Currency Converter
 async function convertCurrency() {
-    const from = document.getElementById("fromCurrency").value;
-    const to = document.getElementById("toCurrency").value;
-    const amount = document.getElementById("amount").value;
+    const from = currencyFrom.value;
+    const to = currencyTo.value;
+    const amount = currencyAmount.value;
 
     if (!amount || isNaN(amount)) {
-        document.getElementById("result").innerText = "Please enter a valid amount.";
+        currencyResult.innerText = "Please enter a valid amount.";
         return;
     }
 
     try {
-        // Free API
         const url = `https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`;
         const response = await fetch(url);
         const data = await response.json();
 
-        console.log("API Response:", data); // 👈 debug line
-
         if (data && data.result !== undefined) {
-            document.getElementById("result").innerText =
+            currencyResult.innerText = 
                 `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
         } else {
-            document.getElementById("result").innerText = "Conversion not available.";
+            currencyResult.innerText = "Conversion not available.";
         }
     } catch (error) {
-        document.getElementById("result").innerText = "Error fetching conversion data.";
+        currencyResult.innerText = "Error fetching conversion data.";
         console.error("Error:", error);
     }
 }
 
-
 // Quick Convert Buttons
 function quickConvert(from, to) {
-  document.getElementById("currency-amount").value = 1;
-  currencyFrom.value = from;
-  currencyTo.value = to;
-  convertCurrency();
+    currencyAmount.value = 1;
+    currencyFrom.value = from;
+    currencyTo.value = to;
+    convertCurrency();
 }
+
 
 // Unit Converter
 function convertUnit() {
