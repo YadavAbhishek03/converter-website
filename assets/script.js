@@ -34,24 +34,48 @@ async function loadCurrencies() {
 loadCurrencies();
 
 // Currency Converter
-async function convertCurrency() {
-  const amount = document.getElementById("currency-amount").value;
-  const from = currencyFrom.value;
-  const to = currencyTo.value;
+document.getElementById("convertCurrencyBtn").addEventListener("click", async () => {
+  const amount = document.getElementById("currencyAmount").value;
+  const from = document.getElementById("fromCurrency").value;
+  const to = document.getElementById("toCurrency").value;
+  const resultBox = document.getElementById("currencyResult");
 
-  if (!amount) {
-    currencyResult.innerText = "Please enter an amount.";
+  if (!amount || amount <= 0) {
+    resultBox.innerHTML = "<span>Please enter a valid amount.</span>";
     return;
   }
 
   try {
-    const res = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
-    const data = await res.json();
-    currencyResult.innerText = `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
+    const response = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
+    const data = await response.json();
+
+    if (data && data.result) {
+      resultBox.innerHTML = `<strong>${amount} ${from}</strong> = <strong>${data.result.toFixed(2)} ${to}</strong>`;
+    } else {
+      resultBox.innerHTML = `<span>Conversion not available.</span>`;
+    }
   } catch (error) {
-    currencyResult.innerText = "Error fetching conversion data.";
+    resultBox.innerHTML = `<span>Error fetching conversion data.</span>`;
+  }
+});
+
+// Quick Convert Buttons
+async function quickConvert(from, to, amount) {
+  const resultBox = document.getElementById("currencyResult");
+  try {
+    const response = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
+    const data = await response.json();
+
+    if (data && data.result) {
+      resultBox.innerHTML = `<strong>${amount} ${from}</strong> = <strong>${data.result.toFixed(2)} ${to}</strong>`;
+    } else {
+      resultBox.innerHTML = `<span>Conversion not available.</span>`;
+    }
+  } catch (error) {
+    resultBox.innerHTML = `<span>Error fetching data.</span>`;
   }
 }
+
 
 // Quick Conversions
 function quickConvert(from, to) {
