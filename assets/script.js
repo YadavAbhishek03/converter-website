@@ -1,19 +1,16 @@
-// ==========================
-// Currency Converter
-// ==========================
-const currencyFrom = document.getElementById("fromCurrency");
-const currencyTo = document.getElementById("toCurrency");
-const currencyResult = document.getElementById("currencyResult");
-const currencyAmount = document.getElementById("currencyAmount");
+// =========================
+// Currency Converter Script
+// =========================
 
-// Currency Converter Function
+// Currency Converter
 async function convertCurrency() {
-    const from = currencyFrom.value;
-    const to = currencyTo.value;
-    const amount = currencyAmount.value;
+    const from = document.getElementById("fromCurrency").value;
+    const to = document.getElementById("toCurrency").value;
+    const amount = document.getElementById("currencyAmount").value;
+    const resultBox = document.getElementById("currencyResult");
 
     if (!amount || isNaN(amount)) {
-        currencyResult.innerText = "Please enter a valid amount.";
+        resultBox.innerText = "Please enter a valid amount.";
         return;
     }
 
@@ -22,29 +19,30 @@ async function convertCurrency() {
         const response = await fetch(url);
         const data = await response.json();
 
+        console.log("API Response:", data); // 👀 debug
+
         if (data && data.result !== undefined) {
-            currencyResult.innerText = 
-                `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
+            resultBox.innerText = `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
         } else {
-            currencyResult.innerText = "Conversion not available.";
+            resultBox.innerText = "Conversion not available.";
         }
     } catch (error) {
-        currencyResult.innerText = "Error fetching conversion data.";
+        resultBox.innerText = "Error fetching conversion data.";
         console.error("Error:", error);
     }
 }
 
 // Quick Convert Buttons
 function quickConvert(from, to) {
-    currencyAmount.value = 1;
-    currencyFrom.value = from;
-    currencyTo.value = to;
+    document.getElementById("currencyAmount").value = 1;
+    document.getElementById("fromCurrency").value = from;
+    document.getElementById("toCurrency").value = to;
     convertCurrency();
 }
 
-// ==========================
+// =========================
 // Unit Converter
-// ==========================
+// =========================
 function convertUnit() {
     const type = document.getElementById("unit-type").value;
     const value = parseFloat(document.getElementById("unit-value").value);
@@ -70,9 +68,9 @@ function convertUnit() {
     }
 }
 
-// ==========================
+// =========================
 // EMI Calculator
-// ==========================
+// =========================
 function calculateEMI() {
     const P = parseFloat(document.getElementById("loan-amount").value);
     const r = parseFloat(document.getElementById("interest-rate").value) / 12 / 100;
@@ -87,9 +85,9 @@ function calculateEMI() {
     document.getElementById("emi-result").innerText = `Monthly EMI = ₹${emi.toFixed(2)}`;
 }
 
-// ==========================
+// =========================
 // SIP Calculator
-// ==========================
+// =========================
 function calculateSIP() {
     const P = parseFloat(document.getElementById("sip-amount").value);
     const r = parseFloat(document.getElementById("sip-rate").value) / 12 / 100;
