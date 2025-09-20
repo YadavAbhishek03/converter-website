@@ -32,10 +32,23 @@
     <div class="card">
       <h2>💱 Currency Converter</h2>
       <input type="number" id="currency-amount" placeholder="Enter amount">
-      <select id="currency-from"></select>
-      <select id="currency-to"></select>
+      <select id="currency-from">
+        <option value="USD" selected>USD - US Dollar</option>
+        <option value="INR">INR - Indian Rupee</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="GBP">GBP - British Pound</option>
+      </select>
+
+      <select id="currency-to">
+        <option value="INR" selected>INR - Indian Rupee</option>
+        <option value="USD">USD - US Dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="GBP">GBP - British Pound</option>
+      </select>
+
       <button onclick="convertCurrency()">Convert</button>
       <p id="currency-result">Result will appear here</p>
+      
       <div class="quick-conversions">
         <button onclick="quickConvert('USD','INR')">USD → INR</button>
         <button onclick="quickConvert('USD','EUR')">USD → EUR</button>

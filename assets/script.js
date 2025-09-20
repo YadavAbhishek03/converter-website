@@ -4,7 +4,7 @@ const currencyFrom = document.getElementById("currency-from");
 const currencyTo = document.getElementById("currency-to");
 const currencyResult = document.getElementById("currency-result");
 
-// Populate currency dropdowns
+// Populate currency dropdowns dynamically
 async function loadCurrencies() {
   try {
     const res = await fetch("https://api.exchangerate.host/symbols");
@@ -14,11 +14,9 @@ async function loadCurrencies() {
     for (let code in symbols) {
       let option1 = document.createElement("option");
       option1.value = code;
-      option1.text = code;
+      option1.text = `${code} - ${symbols[code].description}`;
 
-      let option2 = document.createElement("option");
-      option2.value = code;
-      option2.text = code;
+      let option2 = option1.cloneNode(true);
 
       currencyFrom.appendChild(option1);
       currencyTo.appendChild(option2);
@@ -34,50 +32,31 @@ async function loadCurrencies() {
 loadCurrencies();
 
 // Currency Converter
-document.getElementById("convertCurrencyBtn").addEventListener("click", async () => {
-  const amount = document.getElementById("currencyAmount").value;
-  const from = document.getElementById("fromCurrency").value;
-  const to = document.getElementById("toCurrency").value;
-  const resultBox = document.getElementById("currencyResult");
+async function convertCurrency() {
+  const amount = document.getElementById("currency-amount").value;
+  const from = currencyFrom.value;
+  const to = currencyTo.value;
 
-  if (!amount || amount <= 0) {
-    resultBox.innerHTML = "<span>Please enter a valid amount.</span>";
+  if (amount === "" || amount <= 0) {
+    currencyResult.innerText = "Please enter a valid amount!";
     return;
   }
 
   try {
-    const response = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
-    const data = await response.json();
+    const res = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
+    const data = await res.json();
 
-    if (data && data.result) {
-      resultBox.innerHTML = `<strong>${amount} ${from}</strong> = <strong>${data.result.toFixed(2)} ${to}</strong>`;
+    if (data.result) {
+      currencyResult.innerText = `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
     } else {
-      resultBox.innerHTML = `<span>Conversion not available.</span>`;
+      currencyResult.innerText = "Error fetching conversion data.";
     }
   } catch (error) {
-    resultBox.innerHTML = `<span>Error fetching conversion data.</span>`;
-  }
-});
-
-// Quick Convert Buttons
-async function quickConvert(from, to, amount) {
-  const resultBox = document.getElementById("currencyResult");
-  try {
-    const response = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
-    const data = await response.json();
-
-    if (data && data.result) {
-      resultBox.innerHTML = `<strong>${amount} ${from}</strong> = <strong>${data.result.toFixed(2)} ${to}</strong>`;
-    } else {
-      resultBox.innerHTML = `<span>Conversion not available.</span>`;
-    }
-  } catch (error) {
-    resultBox.innerHTML = `<span>Error fetching data.</span>`;
+    currencyResult.innerText = "Error fetching conversion data.";
   }
 }
 
-
-// Quick Conversions
+// Quick Convert Buttons
 function quickConvert(from, to) {
   document.getElementById("currency-amount").value = 1;
   currencyFrom.value = from;
