@@ -55,12 +55,6 @@ header nav a:hover {
   margin-bottom: 10px;
 }
 
-.hero1 {
-  text-align: center;
-  padding: 40px 20px;
-  color: white;
-}
-
 /* Tools Section */
 .tools {
   display: grid;
