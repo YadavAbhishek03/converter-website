@@ -33,28 +33,35 @@ loadCurrencies();
 
 // Currency Converter
 async function convertCurrency() {
-  const amount = document.getElementById("currency-amount").value;
-  const from = currencyFrom.value;
-  const to = currencyTo.value;
+    const from = document.getElementById("fromCurrency").value;
+    const to = document.getElementById("toCurrency").value;
+    const amount = document.getElementById("amount").value;
 
-  if (amount === "" || amount <= 0) {
-    currencyResult.innerText = "Please enter a valid amount!";
-    return;
-  }
-
-  try {
-    const res = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
-    const data = await res.json();
-
-    if (data.result) {
-      currencyResult.innerText = `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
-    } else {
-      currencyResult.innerText = "Error fetching conversion data.";
+    if (!amount || isNaN(amount)) {
+        document.getElementById("result").innerText = "Please enter a valid amount.";
+        return;
     }
-  } catch (error) {
-    currencyResult.innerText = "Error fetching conversion data.";
-  }
+
+    try {
+        // Free API
+        const url = `https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        console.log("API Response:", data); // 👈 debug line
+
+        if (data && data.result !== undefined) {
+            document.getElementById("result").innerText =
+                `${amount} ${from} = ${data.result.toFixed(2)} ${to}`;
+        } else {
+            document.getElementById("result").innerText = "Conversion not available.";
+        }
+    } catch (error) {
+        document.getElementById("result").innerText = "Error fetching conversion data.";
+        console.error("Error:", error);
+    }
 }
+
 
 // Quick Convert Buttons
 function quickConvert(from, to) {
