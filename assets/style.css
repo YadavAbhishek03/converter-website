@@ -107,37 +107,6 @@ header nav a:hover {
   font-weight: bold;
 }
 
-.container input, 
-.container select {
-  width: 25%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: none;
-}
-
-.container button {
-  display: block;
-  width: 25%;
-  background: linear-gradient(90deg, #3b82f6, #9333ea);
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.container button:hover {
-  opacity: 0.9;
-}
-
-.container p {
-  margin-top: 10px;
-  font-weight: bold;
-}
-
 /* Quick Conversions */
 .quick-conversions {
   display: flex;
