@@ -1,227 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ConverterTools — Currency, Unit & Financial Converters</title>
-  <meta name="description" content="ConverterTools — fast, accurate currency, unit and financial converters online. Free small toolkit for students, travelers and professionals." />
-  <link rel="stylesheet" href="assets/style.css" />
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-
-  <!-- Font Awesome + Google Font -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Insert your own Google AdSense script (replace CLIENT-ID) after approval -->
-  <!--
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR-CLIENT-ID"
-       crossorigin="anonymous"></script>
-  -->
-
-  <!-- Structured data (basic) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ConverterTools",
-    "url": "https://your-domain-or-github-pages-url",
-    "description": "Fast, accurate currency and unit converters with financial calculators."
-  }
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Converter Tools - Currency, Unit & Finance Calculator</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/script.js"></script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="nav-logo" href="index.html" aria-label="ConverterTools Home">
-      <div class="logo-circle">CT</div>
-      <span class="logo-text">ConverterTools</span>
-    </a>
 
-    <nav class="header-nav">
+  <!-- Header -->
+  <header>
+    <div class="logo">Converter<span>Tools</span></div>
+    <nav>
+      <a href="index.html">Home</a>
       <a href="blog/index.html">Blog</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <a href="privacy.html">Privacy</a>
     </nav>
   </header>
 
-  <p class="subtitle"><strong>Fast. Accurate. Free.</strong> Convert currencies, units and calculate EMI / SIP online.</p>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Smart Conversion Tools</h1>
+    <p>Fast, accurate & easy to use currency, unit and finance calculators.</p>
+  </section>
 
-  <main class="container">
-
-    <!-- ========== Currency Converter ========== -->
-    <section class="card" id="currency-card">
-      <div class="card-header">
-        <div class="card-icon"><i class="fas fa-dollar-sign"></i></div>
-        <h2>Currency Converter</h2>
+  <!-- Tools Section -->
+  <section class="tools">
+    <!-- Currency Converter -->
+    <div class="card">
+      <h2>💱 Currency Converter</h2>
+      <input type="number" id="currency-amount" placeholder="Enter amount">
+      <select id="currency-from"></select>
+      <select id="currency-to"></select>
+      <button onclick="convertCurrency()">Convert</button>
+      <p id="currency-result">Result will appear here</p>
+      <div class="quick-conversions">
+        <button onclick="quickConvert('USD','INR')">USD → INR</button>
+        <button onclick="quickConvert('USD','EUR')">USD → EUR</button>
+        <button onclick="quickConvert('EUR','GBP')">EUR → GBP</button>
+        <button onclick="quickConvert('GBP','USD')">GBP → USD</button>
       </div>
-
-      <div class="tool-section">
-        <div class="row">
-          <div class="input-group">
-            <label for="currencyAmount">Amount</label>
-            <input type="number" id="currencyAmount" placeholder="Enter amount" min="0" step="any" value="1">
-          </div>
-
-          <div class="input-group">
-            <label for="fromCurrency">From</label>
-            <select id="fromCurrency"></select>
-          </div>
-
-          <div class="input-group">
-            <label for="toCurrency">To</label>
-            <select id="toCurrency"></select>
-          </div>
-        </div>
-
-        <div class="row">
-          <button id="convertCurrencyBtn" class="primary-btn"><i class="fas fa-exchange-alt"></i> Convert</button>
-          <div id="currencyResult" class="result-box">Result will appear here</div>
-        </div>
-
-        <div class="shortcut-group">
-          <span>Quick:</span>
-          <button class="shortcut-btn" onclick="quickConvert('USD','INR',1)">USD→INR</button>
-          <button class="shortcut-btn" onclick="quickConvert('USD','EUR',1)">USD→EUR</button>
-          <button class="shortcut-btn" onclick="quickConvert('EUR','GBP',1)">EUR→GBP</button>
-          <button class="shortcut-btn" onclick="quickConvert('GBP','USD',1)">GBP→USD</button>
-        </div>
-      </div>
-      <div class="adsense-slot">Ad Slot</div>
-    </section>
-
-    <!-- ========== Unit Converter ========== -->
-    <section class="card" id="unit-card">
-      <div class="card-header">
-        <div class="card-icon"><i class="fas fa-ruler-combined"></i></div>
-        <h2>Unit Converter</h2>
-      </div>
-
-      <div class="tool-section">
-        <div class="row">
-          <div class="input-group">
-            <label for="unitType">Conversion Type</label>
-            <select id="unitType" onchange="updateUnitOptions()">
-              <option value="length">Length</option>
-              <option value="weight">Weight</option>
-              <option value="temperature">Temperature</option>
-              <option value="volume">Volume</option>
-              <option value="speed">Speed</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label for="fromUnit">From</label>
-            <select id="fromUnit"></select>
-          </div>
-
-          <div class="input-group">
-            <label for="toUnit">To</label>
-            <select id="toUnit"></select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="input-group">
-            <label for="unitValue">Value</label>
-            <input type="number" id="unitValue" placeholder="Enter value" step="any">
-          </div>
-
-          <button id="convertUnitBtn" class="primary-btn"><i class="fas fa-calculator"></i> Convert</button>
-          <div id="unitResult" class="result-box">Result will appear here</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== Financial Calculator ========== -->
-    <section class="card" id="finance-card">
-      <div class="card-header">
-        <div class="card-icon"><i class="fas fa-calculator"></i></div>
-        <h2>Financial Calculator</h2>
-      </div>
-
-      <div class="tool-section">
-        <div class="calculator-toggle">
-          <button class="calc-toggle-btn active" id="emiToggle">EMI Calculator</button>
-          <button class="calc-toggle-btn" id="sipToggle">SIP Calculator</button>
-        </div>
-
-        <div id="emiSection" class="finance-section">
-          <div class="row">
-            <div class="input-group">
-              <label for="loanAmount">Loan Amount</label>
-              <input type="number" id="loanAmount" placeholder="Loan amount" min="0" step="any">
-            </div>
-
-            <div class="input-group">
-              <label for="interestRate">Interest Rate (% per year)</label>
-              <input type="number" id="interestRate" placeholder="Interest rate" min="0" step="any">
-            </div>
-
-            <div class="input-group">
-              <label for="loanTerm">Loan Term (months)</label>
-              <input type="number" id="loanTerm" placeholder="Loan term in months" min="1" step="1">
-            </div>
-          </div>
-
-          <div class="row">
-            <button id="calculateEMIBtn" class="primary-btn"><i class="fas fa-calculator"></i> Calculate EMI</button>
-            <div id="financeResult" class="result-box" style="display:block">
-              <div><strong>Monthly EMI:</strong> <span id="resultValueEMI">0</span></div>
-              <div><strong>Total Interest:</strong> <span id="resultValueInterest">0</span></div>
-              <div><strong>Total Payment:</strong> <span id="resultValueTotal">0</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div id="sipSection" class="finance-section" style="display:none;">
-          <div class="row">
-            <div class="input-group">
-              <label for="sipAmount">Monthly Investment</label>
-              <input type="number" id="sipAmount" placeholder="Monthly amount" min="0" step="any">
-            </div>
-
-            <div class="input-group">
-              <label for="sipInterest">Expected Return (% per year)</label>
-              <input type="number" id="sipInterest" placeholder="Expected return" min="0" step="any">
-            </div>
-
-            <div class="input-group">
-              <label for="sipTerm">Investment Period (years)</label>
-              <input type="number" id="sipTerm" placeholder="Investment period" min="1" step="1">
-            </div>
-          </div>
-
-          <div class="row">
-            <button id="calculateSIPBtn" class="primary-btn"><i class="fas fa-chart-line"></i> Calculate SIP</button>
-            <div id="sipResult" class="result-box">Result will appear here</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <div>© 2025 ConverterTools — help@your-email.com</div>
-    <div class="footer-links">
-      <a href="contact.html">Contact</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
     </div>
+
+    <!-- Unit Converter -->
+    <div class="card">
+      <h2>📏 Unit Converter</h2>
+      <select id="unit-type">
+        <option value="length">Length (Meter ⇄ Kilometer)</option>
+        <option value="weight">Weight (Kg ⇄ Gram)</option>
+        <option value="temp">Temperature (°C ⇄ °F)</option>
+      </select>
+      <input type="number" id="unit-value" placeholder="Enter value">
+      <button onclick="convertUnit()">Convert</button>
+      <p id="unit-result">Result will appear here</p>
+    </div>
+
+    <!-- Financial Calculator -->
+    <div class="card">
+      <h2>💰 Financial Calculator</h2>
+
+      <h3>EMI Calculator</h3>
+      <input type="number" id="loan-amount" placeholder="Loan amount">
+      <input type="number" id="interest-rate" placeholder="Interest rate (%)">
+      <input type="number" id="loan-term" placeholder="Loan term (months)">
+      <button onclick="calculateEMI()">Calculate EMI</button>
+      <p id="emi-result"></p>
+
+      <h3>SIP Calculator</h3>
+      <input type="number" id="sip-amount" placeholder="Monthly investment">
+      <input type="number" id="sip-rate" placeholder="Expected return (%)">
+      <input type="number" id="sip-years" placeholder="Years">
+      <button onclick="calculateSIP()">Calculate SIP</button>
+      <p id="sip-result"></p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about">
+    <div>
+      <h2>About ConverterTools</h2>
+      <p>
+        ConverterTools is your free online utility for currency conversion, unit conversion, 
+        and financial calculations. Perfect for students, professionals, and anyone needing fast, 
+        accurate results.
+      </p>
+    </div>
+    <div>
+      <h2>Getting Started</h2>
+      <ol>
+        <li>Select the tool you need above</li>
+        <li>Enter your values and select conversion types</li>
+        <li>Use quick conversion buttons for common conversions</li>
+        <li>Calculate EMI or SIP returns with our finance calculators</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 ConverterTools | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
   </footer>
 
-  <script src="assets/script.js"></script>
-
-  <!-- Optional: Google Analytics (replace ID) -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ID"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-YOUR-ID');
-  </script>
-  -->
 </body>
 </html>
